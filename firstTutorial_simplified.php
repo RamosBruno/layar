@@ -125,6 +125,20 @@ function changetoFloat($string) {
   return NULL;
 }//changetoFloat
 
+// Change a string value to integer. 
+//
+// Arguments:
+//   string ; A string value.
+// 
+// Returns:
+//   Int ; If the string is empty, return NULL.
+//
+function changetoInt($string) {
+  if (strlen(trim($string)) != 0) 
+    return (int)$string;
+  return NULL;
+}//changetoInt
+
 // Put fetched actions for each POI into an associative array.
 //
 // Arguments:
