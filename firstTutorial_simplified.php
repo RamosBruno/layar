@@ -139,6 +139,45 @@ function changetoInt($string) {
   return NULL;
 }//changetoInt
 
+// Convert a string into an array.
+//
+// Arguments:
+//  string ; The input string
+//  separater, string ; The boundary string used to separate the input string
+//
+// Returns:
+//  array ; An array of strings. Otherwise, return an empty array. 
+function changetoArray($string, $separator){
+  $newArray = array();
+  if($string) {
+    if (substr_count($string,$separator)) {
+      $newArray= array_map('trim' , explode($separator, $string));
+        }//if
+    else 
+      $newArray[0] = trim($string);
+  }
+  return $newArray;
+}//changetoArray
+
+// Convert a TinyInt value to a boolean value TRUE or FALSE
+//
+// Arguments: 
+//  int  value_Tinyint ; The Tinyint value (0 or 1) of a key in the database. 
+//
+// Returns:
+//   boolean ; The boolean value, return 'TRUE' when Tinyint is 1. Return
+//     'FALSE' when Tinyint is 0.
+//
+function changetoBool($value_Tinyint) {
+  if (strlen(trim($value_Tinyint)) != 0) {
+    if ($value_Tinyint == 0)
+      return FALSE;
+    else 
+      return TRUE;
+   }
+  return NULL;
+}//changetoBool
+
 // Put fetched actions for each POI into an associative array.
 //
 // Arguments:
