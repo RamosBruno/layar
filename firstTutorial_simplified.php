@@ -69,7 +69,7 @@ function getHotspots( $db, $value ) {
                         cos((:lat2 * pi() / 180)) * cos((lat * pi() / 180)) *
                         cos((:long  - lon) * pi() / 180))
                        ) * 180 / pi()
-                      )* 60 * 1.1515 * 1.609344 * 100000000
+                      )* 60 * 1.1515 * 1.609344 * 1000
                      ) as distance
                FROM POI
               WHERE poiType = 'geo'
@@ -84,6 +84,7 @@ function getHotspots( $db, $value ) {
   $sql->bindParam( ':long', $value['lon'], PDO::PARAM_STR );
   $sql->bindParam( ':radius', $value['radius'], PDO::PARAM_INT );
   // Use PDO::execute() to execute the prepared statement $sql.
+
   $sql->execute();
   // Iterator for the response array.
   $i = 0;
