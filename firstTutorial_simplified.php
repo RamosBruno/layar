@@ -70,7 +70,8 @@ function getHotspots( $db, $value ) {
                         cos((:long  - lon) * pi() / 180))
                        ) * 180 / pi()
                       )* 60 * 1.1515 * 1.609344 * 1000
-                     ) as distance
+                     ) as distance,
+                      iconID
                FROM POI
               WHERE poiType = 'geo'
              HAVING distance < :radius
