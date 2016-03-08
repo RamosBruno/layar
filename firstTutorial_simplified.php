@@ -111,6 +111,9 @@ function getHotspots( $db, $value ) {
       $poi['text']['footnote'] = $rawPoi['footnote'];
       // Use function getPoiActions() to return an array of actions associated with the current POI.
       $poi["actions"] = getPoiActions($db, $rawPoi);
+      // Get object object information if iconID is not null
+      if(count($rawPoi['iconID']) != 0)
+        $poi['icon'] = getIcon($db , $rawPoi['iconID']);
      // Put the poi into the $hotspots array.
      $hotspots[$i] = $poi;
      $i++;
@@ -219,6 +222,36 @@ function getPoiActions($db , $poi) {
   }//if
   return $actionArray;
 }//getPoiActions
+
+// Put fetched icon dictionary for each POI into an associative array.
+//
+// Arguments:
+//  db ; The database connection handler.
+//  iconID, integer ; The iconID value  which is stored in this POI.
+//
+// Return:
+//  array ; An associative array of retrieved icon dictionary for this POI.
+//  Otherwise, return NULL.
+function getIcon($db, $iconID) {
+  // If no icon object is found, return NULL.
+  $icon = NULL;
+  // Run the query to retrieve icon information for this POI.  
+  $sql_icon = $db->prepare( '
+            SELECT url, type
+              FROM Icon
+             WHERE id = :iconID  
+            ' );
+  $sql_icon->bindParam(':iconID', $iconID, PDO::PARAM_INT);
+  $sql_icon->execute();
+  $rawIcon = $sql_icon->fetch(PDO::FETCH_ASSOC);
+
+  // Assign returned values to $icon array.
+  if($rawIcon){
+    $rawIcon['type'] = changetoInt($rawIcon['type']);
+    $icon = $rawIcon;
+  }    
+  return $icon;
+}//getIcon
 
 // Convert a string into an array.
 //
