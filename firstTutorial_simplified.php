@@ -134,7 +134,7 @@ $response['layer'] = $requestParams['layerName'];
 $response['hotspots'] = getHotspots( $db, $requestParams );
 
 // if there is no POI found, return a custom error message.
-if ($response['hotspots']) {
+if (!$response['hotspots']) {
     $response['errorCode'] = 20;
      $response['errorString'] = "No POI found. Please adjust the range.";
 }//if
