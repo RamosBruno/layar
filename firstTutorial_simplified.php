@@ -71,7 +71,9 @@ function getHotspots( $db, $value ) {
                        ) * 180 / pi()
                       )* 60 * 1.1515 * 1.609344 * 1000
                      ) as distance,
-                      iconID
+                      iconID,
+                      objectID,
+                      transformID
                FROM POI
               WHERE poiType = 'geo'
              HAVING distance < :radius
@@ -115,6 +117,12 @@ function getHotspots( $db, $value ) {
       // Get object object information if iconID is not null
       if(count($rawPoi['iconID']) != 0)
         $poi['icon'] = getIcon($db , $rawPoi['iconID']);
+      // Get object object information if objectID is not null
+      if(count($rawPoi['objectID']) != 0)
+        $poi['object'] = getObject($db, $rawPoi['objectID']);
+      // Get transform object information if transformID is not null
+      if(count($rawPoi['transformID']) != 0)
+        $poi['transform'] = getTransform($db, $rawPoi['transformID']);
      // Put the poi into the $hotspots array.
      $hotspots[$i] = $poi;
      $i++;
@@ -253,6 +261,109 @@ function getIcon($db, $iconID) {
   }    
   return $icon;
 }//getIcon
+
+// Put fetched object parameters for each POI into an associative array.
+//
+// Arguments:
+//   db ; The database connection handler.
+//   objectID, integer ; The object id assigned to this POI in the database.
+//
+// Returns:
+//   associative array or NULL ; An array of received object related parameters for
+//   this POI. otherwise, return NULL.
+//
+function getObject($db , $objectID) {
+  // If no object is found, return NULL.
+  $object = NULL;
+
+  // A new table called "Object" is created to store object related parameters,
+  // namely "url", "contentType", "reducedURL" and "size". The SQL statement
+  // returns object which has the same id as $objectID stored in this POI.
+  $sql_object = $db->prepare(
+    " SELECT contentType,
+             url,
+             reducedURL,
+             size
+        FROM Object
+       WHERE id = :objectID
+       LIMIT 0,1 ");
+
+  // Binds the named parameter marker ":objectID" to the specified parameter
+  // value $objectID.                 
+  $sql_object->bindParam(':objectID', $objectID, PDO::PARAM_INT);
+  // Use PDO::execute() to execute the prepared statement $sql_object.
+  $sql_object->execute();
+  // Fetch the poi object.
+  $rawObject = $sql_object->fetch(PDO::FETCH_ASSOC);
+
+  /* Process the $rawObject result */
+  // if $rawObject array is not empty.
+  if ($rawObject) {
+    // Change "size" type to float.
+    $rawObject['size'] = changetoFloat($rawObject['size']);
+    $object = $rawObject;
+  }
+  return $object;
+}//getObject
+
+// Put fetched transform object for each POI into an associative array.
+//
+// Arguments:
+//   db ; The database connection handler.
+//   transformID , integer ; The transform id assigned to this POI in the database.
+//
+// Returns: associative array or NULL; An array of received transform related
+// parameters for this POI. Otherwise, return NULL.
+//
+function getTransform($db , $transformID) {
+  // If no transform object found, return NULL.
+  $transform = NULL;
+  // A new table called "Transform" is created to store transform related
+  // parameters, namely "rotate","translate" and "scale".
+  // "transformID" is the transform that is applied to this POI.
+  // The SQL statement returns transform which has the same id as the
+  // $transformID of this POI.
+  $sql_transform = $db->prepare("
+      SELECT rel,
+             angle,
+             rotate_x,
+             rotate_y,
+             rotate_z,
+             translate_x,
+             translate_y,
+             translate_z,
+             scale
+        FROM Transform
+       WHERE id = :transformID
+       LIMIT 0,1 ");
+
+  // Binds the named parameter marker ":transformID" to the specified parameter
+  // value $transformID                
+  $sql_transform->bindParam(':transformID', $transformID, PDO::PARAM_INT);
+  // Use PDO::execute() to execute the prepared statement $sql_transform.
+  $sql_transform->execute();
+  // Fetch the poi transform.
+  $rawTransform = $sql_transform->fetch(PDO::FETCH_ASSOC);
+
+  /* Process the $rawTransform result */
+  // if $rawTransform array is not  empty
+  if ($rawTransform) {
+    // Change the value of "scale" into decimal value.
+    $transform['scale'] = changetoFloat($rawTransform['scale']);
+    // construct translate field
+    $transform['translate']['x'] =changetoFloat($rawTransform['translate_x']);
+    $transform['translate']['y'] = changetoFloat($rawTransform['translate_y']);
+    $transform['translate']['z'] = changetoFloat($rawTransform['translate_z']);
+    // construct rotate field
+    $transform['rotate']['axis']['x'] = changetoFloat($rawTransform['rotate_x']);
+    $transform['rotate']['axis']['y'] = changetoFloat($rawTransform['rotate_y']);
+    $transform['rotate']['axis']['z'] = changetoFloat($rawTransform['rotate_z']);
+    $transform['rotate']['angle'] = changetoFloat($rawTransform['angle']);
+    $transform['rotate']['rel'] = changetoBool($rawTransform['rel']);
+  }//if
+ 
+  return $transform;
+}//getTransform
 
 // Convert a string into an array.
 //
