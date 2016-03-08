@@ -109,6 +109,8 @@ function getHotspots( $db, $value ) {
       $poi['text']['title'] = $rawPoi['title'];
       $poi['text']['description'] = $rawPoi['description'];
       $poi['text']['footnote'] = $rawPoi['footnote'];
+      // Use function getPoiActions() to return an array of actions associated with the current POI.
+      $poi["actions"] = getPoiActions($db, $rawPoi);
      // Put the poi into the $hotspots array.
      $hotspots[$i] = $poi;
      $i++;
@@ -122,6 +124,89 @@ function changetoFloat($string) {
     return (float)$string;
   return NULL;
 }//changetoFloat
+
+// Put fetched actions for each POI into an associative array.
+//
+// Arguments:
+//   db ; The database connection handler.
+//   poi ; The POI array.
+//
+// Returns:
+//   array ; An associative array of received actions for this POI.Otherwise,
+//   return an empty array.
+//
+function getPoiActions($db , $poi) {
+  // Define an empty $actionArray array.
+  $actionArray = array();
+
+  // A new table called "POIAction" is created to store actions, each action
+  // has a field called "poiID" which shows the POI id that this action belongs
+  // to.
+  // The SQL statement returns actions which have the same poiID as the id of
+  // the POI($poiID).
+  $sql_actions = $db->prepare("
+      SELECT label,
+             uri,
+             autoTriggerRange,
+             autoTriggerOnly,
+             contentType,
+             activityType,
+             params
+        FROM POIAction
+       WHERE poiID = :id ");
+
+  // Binds the named parameter marker ":id" to the specified parameter value
+  // "$poiID.                 
+  $sql_actions->bindParam(':id', $poi['id'], PDO::PARAM_STR);
+  // Use PDO::execute() to execute the prepared statement $sql_actions.
+  $sql_actions->execute();
+  // Iterator for the $actionArray array.
+  $count = 0;
+  // Fetch all the poi actions.
+  $actions = $sql_actions->fetchAll(PDO::FETCH_ASSOC);
+
+  /* Process the $actions result */
+  // if $actions array is not empty.
+  if ($actions) {
+    // Put each action information into $actionArray array.
+    foreach ($actions as $action) {
+      // Assign each action to $actionArray array.
+      $actionArray[$count] = $action;
+      // put 'params' into an array of strings
+      $actionArray[$count]['params'] = changetoArray($action['params'] , ',');
+      // Change 'activityType' to Integer.
+      $actionArray[$count]['activityType'] = changetoInt($action['activityType']);
+      // Change 'autoTriggerRange' to Integer.
+      $actionArray[$count]['autoTriggerRange'] = changetoInt($action['autoTriggerRange']);
+      // Change 'autoTriggerOnly' to Boolean.
+      $actionArray[$count]['autoTriggerOnly'] = changetoBool($action['autoTriggerOnly']); 
+
+      $count++;
+    }// foreach
+  }//if
+  return $actionArray;
+}//getPoiActions
+
+// Convert a string into an array.
+//
+// Arguments:
+//  string ; The input string
+//  separater, string ; The boundary string used to separate the input string
+//
+// Returns:
+//  array ; An array of strings. Otherwise, return an empty array.
+function changetoArray($string, $separator){
+  $newArray = array();
+  if($string) {
+    if (substr_count($string,$separator)) {
+      $newArray= array_map('trim' , explode($separator, $string));
+        }//if
+    else
+      $newArray[0] = trim($string);
+  }
+  return $newArray;
+}//changetoArray
+
 
 /* Construct the response into an associative array */
     
