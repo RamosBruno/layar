@@ -76,7 +76,7 @@ function getHotspots( $db, $value ) {
                       transformID
                FROM POI
               WHERE poiType = 'geo'
-              AND (Checkbox & :checkbox) != 0
+              AND (Checkbox & :checkbox) != ''
               HAVING distance < :radius
            ORDER BY distance ASC
               LIMIT 0, 50 " );
@@ -91,7 +91,7 @@ function getHotspots( $db, $value ) {
 
     // Custom filter settings parameters. The four Get functions can be
     // customized.=
-    $sql->bindParam(':checkbox', getCheckboxValue($value['CHECKBOXLIST']), PDO::PARAM_INT);
+    $sql->bindParam(':checkbox', getCheckboxValue($value['CHECKBOXLIST']), PDO::PARAM_STR);
 
   $sql->execute();
   // Iterator for the response array.
