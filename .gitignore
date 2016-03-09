@@ -1,6 +1,5 @@
 config.inc.php
 .idea/
 www/node_modules
-www/bower_components
 www/.sass-cache
 www/vendor
