@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="design.css" />
+  <script src="script.js"></script>
+</head>
+<body>
+	<header>
+		<nav>
+			<ul>
+				<li><a href="/index.html">Accueil</a></li>
+				<li><a href="/formpoi.html">Ajouter POI</a></li>
+				<li><a href="/action.html">Ajouter action</a></li>
+			</ul>
+		</nav>
+	</header>
+	<section>
+		<form method="post" action="action.php">
+			<label>ID POI</label>
+			<select name="poiID">
+				<option value="testvnsl">testvnsl</option>
+				<option value="bw1">BW1</option>
+			</select><br>
+			<label>Label</label><input type="text" value="" placeholder="Label" name="label"><br>
+			<label>URI</label><input type="text" value="" placeholder="URI" name="uri"><br>
+			<label>Type Content</label>
+			<select name="contentType">
+				<option value="text/html">Site internet</option>
+				<option value="application/vnd.layar.internal">Téléphone</option>
+			</select><br>
+			<label>Methode</label>
+			<select name="method">
+				<option value="GET">GET</option>
+				<option value="POST">POST</option>
+			</select><br>
+			<label>Type activity</label>
+			<select name="activityType">
+				<option value="1">1</option>
+				<option value="4">4</option>
+			</select><br>
+			<label>Paramètres</label><input type="text" value="" placeholder="Paramètres" name="params"><br>
+			<input type="submit" value="Envoyer">
+		</form>
+	</section>
+</body>
+</html>
