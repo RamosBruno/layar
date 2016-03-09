@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="web/favicon.ico">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="bower_components/owl.carousel/dist/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="bower_components/owl.carousel/dist/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="bower_components/jquery-modal/jquery.modal.css">
+    <link rel="stylesheet" href="bower_components/animate.css/animate.min.css">
+    <link rel="stylesheet" href="web/assets/styles/main.css">
+
+    <title>{% block title %}Best Western AR{% endblock %}</title>
+
+    {% block header_css %}{% endblock %}
+
+    {% block header_js %}{% endblock %}
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body class="page_{{ pageName }}">
+    {% block header %}{% endblock %}
+    {% block content %}{% endblock %}
+    {% block footer %}{% endblock %}
+    {% block footer_js %}{% endblock %}
+    <script src="web/assets/scripts/vendors.js"></script>
+    <script src="web/assets/scripts/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "bwar",
+  "description": "",
+  "main": "",
+  "authors": [
+    "MarionJacinte <marion.jacinte@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "bootstrap-sass": "bootstrap-sass-official#~3.3.6",
+    "owl.carousel": "owl-carousel2#^2.0.0-beta.3",
+    "jquery-modal": "^0.6.1",
+    "animate.css": "^3.5.1"
+  }
+}

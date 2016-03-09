@@ -1,0 +1,71 @@
+{% extends "layout/base.twig" %}
+{% block content %}
+	<div class="home-inner">
+		<img src="web/assets/img/best_western.png" alt="" class="logo">
+		<a href="#help-carousel" rel="modal:open"><img src="web/assets/img/mark.png" class="mark-help" alt=""></a>
+		<div class="vertical-centered">
+			<h1>Que souhaitez-vous afficher ?</h1>
+			<div class="">
+				<div class="col-xs-6">
+					<a href="" class="action">
+						<img src="web/assets/img/check.png" alt="check">
+						<p>Réserver</p>
+					</a>
+				</div>
+				<div class="col-xs-6">
+					<a href="/car" class="action">
+						<img src="web/assets/img/car.png" alt="">
+						<p>Transport</p>
+					</a>
+				</div>
+
+			</div>
+			<div class="">
+				<div class="col-xs-6">
+					<a href="" class="action">
+						<img src="web/assets/img/house.png" alt="">
+						<p>Domotique</p>
+					</a>
+				</div>
+				<div class="col-xs-6">
+					<a href="" class="action">
+						<img src="web/assets/img/tourism.png" alt="">
+						<p>Tourisme</p>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="help-carousel" class="modal">
+  		<div class="owl-carousel">
+		  <div class="check-slide slide">
+		  		<div class="rectangle animated fadeIn">
+					<img src="web/assets/img/check.png" alt="check">
+					<h2>Check-in</h2>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit suscipit.</p>
+		  		</div>
+		  </div>
+		  <div class="car-slide slide">
+		  		<div class="rectangle">
+					<img src="web/assets/img/car.png" alt="check">
+					<h2>Transport</h2>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit suscipit.</p>
+		  		</div>
+		  </div>
+		  <div class="room-slide slide">
+		  		<div class="rectangle animated fadeIn">
+					<img src="web/assets/img/house.png" alt="check">
+					<h2>Domotique</h2>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit suscipit.</p>
+		  		</div>
+		  </div>
+		  <div class="tourism-slide slide">
+		  		<div class="rectangle">
+					<img src="web/assets/img/tourism.png" alt="check">
+					<h2>Tourisme</h2>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit suscipit.</p>
+		  		</div>
+		  </div>
+		</div>
+  	</div>
+{% endblock %}
