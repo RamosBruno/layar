@@ -16,6 +16,7 @@
 				<li><a href="/index.php">Accueil</a></li>
 				<li><a href="/formpoi.php">Ajouter POI</a></li>
 				<li><a href="/formaction.php">Ajouter action</a></li>
+				<li><a href="/formicon.php">Ajouter icône</a></li>
 			</ul>
 		</nav>
 	</header>
