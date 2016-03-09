@@ -92,7 +92,7 @@ function getHotspots( $db, $value ) {
 
     // Custom filter settings parameters. The four Get functions can be
     // customized.=
-    $sql->bindParam(':checkbox', getCheckboxValue($value['CHECKBOXLIST']), PDO::PARAM_INT);=
+    $sql->bindParam(':checkbox', getCheckboxValue($value['CHECKBOXLIST']), PDO::PARAM_INT);
 
   $sql->execute();
   // Iterator for the response array.
