@@ -2,8 +2,7 @@
 include 'config.inc.php';
 /* Put parameters from GetPOI request into an associative array named $requestParams */
 // Put needed parameter names from GetPOI request in an array called $keys.
-$keys = array( 'layerName', 'lat', 'lon', 'radius',"RADIOLIST", "CHECKBOXLIST",
-    "CUSTOM_SLIDER", "SEARCHBOX" );
+$keys = array( 'layerName', 'lat', 'lon', 'radius', 'CHECKBOXLIST' );
 
 // Initialize an empty associative array.
 $requestParams = array();
