@@ -411,7 +411,7 @@ function getCheckboxValue($checkboxlist) {
         if (!empty($checkboxlist)) {
             if (strstr($checkboxlist , ',')) {
                 $checkbox_array = explode(',' , $checkboxlist);
-                for($i=0; $i<=count($checkbox_array); $i++)
+                for($i=0; $i<count($checkbox_array); $i++)
                     $checkbox_value += $checkbox_array[$i];
             }//if
             else
