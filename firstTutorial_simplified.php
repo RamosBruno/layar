@@ -417,8 +417,6 @@ function getCheckboxValue($checkboxlist) {
             else
                 $checkbox_value = $checkboxlist;
         }//if
-        var_dump($checkbox_value);
-        die();
         return $checkbox_value;
     } //if
     else {
