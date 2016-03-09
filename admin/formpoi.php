@@ -6,12 +6,16 @@
   <script src="script.js"></script>
 </head>
 <body>
+
+	<?php include 'function.php';
+	$rawIcons = getIcons();?>
+
 	<header>
 		<nav>
 			<ul>
-				<li><a href="/index.html">Accueil</a></li>
-				<li><a href="/formpoi.html">Ajouter POI</a></li>
-				<li><a href="/action.html">Ajouter action</a></li>
+				<li><a href="/index.php">Accueil</a></li>
+				<li><a href="/formpoi.php">Ajouter POI</a></li>
+				<li><a href="/formaction.php">Ajouter action</a></li>
 			</ul>
 		</nav>
 	</header>
@@ -27,6 +31,7 @@
 			<label>Style</label>
 			<select name="biwStyle">
 				<option value="classic">Classic</option>
+				<option value="collapsed">Collapsed</option>
 			</select><br>
 			<label for="doNotIndex">Do not index</label><input type="checkbox" name="doNotIndex" id="doNotIndex"><br>
 			<label for="showBiwOnClick">Show Biw On Click</label><input type="checkbox" name="showBiwOnClick" id="showBiwOnClick"><br>
@@ -34,12 +39,13 @@
 			<label>Type POI</label>
 			<select name="poiType">
 				<option value="geo">Geo</option>
+				<option value="vision">Vision</option>
 			</select><br>
 			<label>iconID</label>
 			<select name="iconID">
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
+				<?php foreach($rawIcons as $icon){ ?>
+				<option value="<?php echo $icon['id']; ?>"><?php echo $icon['url']; ?></option>
+				<?php } ?>
 			</select><br>
 			<input type="submit" value="Envoyer">
 		</form>
