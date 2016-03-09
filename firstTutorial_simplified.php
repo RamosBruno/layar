@@ -2,7 +2,8 @@
 include 'config.inc.php';
 /* Put parameters from GetPOI request into an associative array named $requestParams */
 // Put needed parameter names from GetPOI request in an array called $keys.
-$keys = array( 'layerName', 'lat', 'lon', 'radius' );
+$keys = array( 'layerName', 'lat', 'lon', 'radius',"RADIOLIST", "CHECKBOXLIST",
+    "CUSTOM_SLIDER", "SEARCHBOX" );
 
 // Initialize an empty associative array.
 $requestParams = array();
@@ -76,7 +77,11 @@ function getHotspots( $db, $value ) {
                       transformID
                FROM POI
               WHERE poiType = 'geo'
-             HAVING distance < :radius
+              AND title REGEXP :search
+              AND Radiolist = :radiolist
+              AND (Checkbox & :checkbox) != 0
+              AND Custom_Slider <= :slider
+              HAVING distance < :radius
            ORDER BY distance ASC
               LIMIT 0, 50 " );
 
@@ -87,6 +92,13 @@ function getHotspots( $db, $value ) {
   $sql->bindParam( ':long', $value['lon'], PDO::PARAM_STR );
   $sql->bindParam( ':radius', $value['radius'], PDO::PARAM_INT );
   // Use PDO::execute() to execute the prepared statement $sql.
+
+    // Custom filter settings parameters. The four Get functions can be
+    // customized.
+    $sql->bindParam(':search', getSearchValue($value['SEARCHBOX']), PDO::PARAM_STR);
+    $sql->bindParam(':radiolist', getRadioValue($value['RADIOLIST']), PDO::PARAM_STR);
+    $sql->bindParam(':checkbox', getCheckboxValue($value['CHECKBOXLIST']), PDO::PARAM_INT);
+    $sql->bindParam(':slider', getSliderValue($value['CUSTOM_SLIDER']), PDO::PARAM_INT);
 
   $sql->execute();
   // Iterator for the response array.
@@ -385,6 +397,115 @@ function changetoArray($string, $separator){
   return $newArray;
 }//changetoArray
 
+// Prepare the search value which will be used in SQL statement.
+// Arguments:
+//   searchbox ; the value of SEARCHBOX parameter in the GetPOI request.
+//
+// Returns:
+//   searchbox_value ; If searchbox parameter has an empty string, return a
+//   string which is  a combination of numbers, letters and white spaces.
+//   Otherwise, return the value of searchbox parameter.
+
+function getSearchValue($searchbox) {
+  // if $searchbox exists, prepare search value.
+  if (isset($searchbox)) {
+    // initiate searchbox value to be any string that consists of numbers,
+    // letters and spaces.
+    $searchbox_value = '[0-9a-zA-Z\s]*';
+    // if $searchbox is not an empty string, return the $searchbox value.
+    if (!empty($searchbox))
+      $searchbox_value = $searchbox;
+
+    return $searchbox_value;
+  } //if
+  else { // If $searchbox does not exist, throw an exception.
+    throw new Exception("searchbox parameter is not passed in GetPOI request.");
+  }//else
+}//getSearchValue
+
+// Prepare radiolist value which will be used in SQL statement. In this
+// function, we convert the returned value into the ones that are stored in the
+// database.
+//
+// Arguments:
+// radiolist ; the integer value of RADIOLIST parameter in the GetPOI request.
+//
+// Returns:
+// radio_value ; the value that can be used to construct the right SQL
+// statement.
+function getRadioValue($radiolist) {
+    // if $radiolist exists, prepare radio_value.
+    if(isset($radiolist)) {
+        $radio_value = '';
+        // if $radiolist == 1, return $radio_value ="sale";
+        // if $radiolist == 2, return $radio_value ="rent";
+        switch ($radiolist) {
+            case '1':
+                $radio_value = "sale" ;
+                break;
+            case '2':
+                $radio_value = "rent" ;
+                break;
+            default:
+                throw new Exception("invalid radiolist value:" . $radiolist);
+        } //switch
+        return $radio_value;
+    }//if
+    else {
+        throw new Exception("radiolist parameter is not passed in GetPOI request.");
+    }//else
+}//getRadioValue
+
+// Prepare checkbox value which will be used in SQL statement.
+// In this function, we add all the numbers in $checkboxlist parameter. If
+// $checkboxlist is empty, then we return 0.
+//
+// Arguments:
+// checkboxlist ; the value of CHECKBOXLIST parameter in the GetPOI request.
+//
+// Returns:
+// checkbox_value ; the value that can be used to construct the right SQL
+// statement.
+
+function getCheckboxValue($checkboxlist) {
+    // if $checkboxlist exists, prepare checkbox_value.
+    if(isset($checkboxlist)) {
+        // Initialize returned value to be 0 if $checkboxlist is empty.
+        $checkbox_value = 0;
+        // If $checkboxlist is not empty, return the added value of all the numbers
+        // splited by ','.
+        if (!empty($checkboxlist)) {
+            if (strstr($checkboxlist , ',')) {
+                $checkbox_array = explode(',' , $checkboxlist);
+                for($i=0; $i<count($checkbox_array); $i++)
+                    $checkbox_value += $checkbox_array[$i];
+            }//if
+            else
+                $checkbox_value = $checkboxlist;
+        }//if
+        return $checkbox_value;
+    } //if
+    else {
+        throw new Exception("checkboxlist parameter is not passed in GetPOI request.");
+    }//else
+}//getCheckboxValue
+
+// Prepare custom_slider value which will be used in SQL statement.
+// In this function, we simply return the value of $customslider defined in the GetPOI request.
+//
+// Arguments:
+// customslider ; the value of CUSTOM_SLIDER parameter in the GetPOI request.
+//
+// Returns:
+// customslider ; the value that can be used to construct the right SQL statement.
+//
+function getSliderValue ($customslider) {
+    // if $customslider exists, return its value.
+    if(isset($customslider))
+        return $customslider;
+    else
+        throw new Exception("custom slider parameter is not passed in GetPOI request.");
+}//getSliderValue
 
 /* Construct the response into an associative array */
     
