@@ -77,6 +77,7 @@ function getHotspots( $db, $value ) {
                FROM POI
               WHERE poiType = 'geo'
               AND (Checkbox & :checkbox) != 0
+              AND relativePoi = 'yes'
               HAVING distance < :radius
            ORDER BY distance ASC
               LIMIT 0, 50 " );
@@ -101,38 +102,61 @@ function getHotspots( $db, $value ) {
   // Use PDO::FETCH_ASSOC to fetch $sql query results and return each row as an
   // array indexed by column name.
   $rawPois = $sql->fetchAll(PDO::FETCH_ASSOC);
- 
-  /* Process the $rawPois result */
-  // if $rawPois array is not  empty
-  if ($rawPois) {
-    // Put each POI information into $hotspots array.
-    foreach ( $rawPois as $rawPoi ) {
-      $poi = array(); 
-      $poi['id'] = $rawPoi['id'];
-      $poi['imageURL'] = $rawPoi['imageURL'];
-      // get anchor object information, note that changetoFloat is a custom function used to covert a string variable to float.
-      $poi['anchor']['geolocation']['lat'] = changetoFloat($rawPoi['lat']);
-      $poi['anchor']['geolocation']['lon'] = changetoFloat($rawPoi['lon']);
-      // get text object information
-      $poi['text']['title'] = $rawPoi['title'];
-      $poi['text']['description'] = $rawPoi['description'];
-      $poi['text']['footnote'] = $rawPoi['footnote'];
-      // Use function getPoiActions() to return an array of actions associated with the current POI.
-      $poi["actions"] = getPoiActions($db, $rawPoi);
-      // Get object object information if iconID is not null
-      if(count($rawPoi['iconID']) != 0)
-        $poi['icon'] = getIcon($db , $rawPoi['iconID']);
-      // Get object object information if objectID is not null
-      if(count($rawPoi['objectID']) != 0)
-        $poi['object'] = getObject($db, $rawPoi['objectID']);
-      // Get transform object information if transformID is not null
-      if(count($rawPoi['transformID']) != 0)
-        $poi['transform'] = getTransform($db, $rawPoi['transformID']);
-     // Put the poi into the $hotspots array.
-     $hotspots[$i] = $poi;
-     $i++;
-    }//foreach
-  }//if
+
+    /* Process the $pois result */
+    // if $rawPois array is not  empty
+    if ($rawPois) {
+
+        // Iterator for the response array.
+        $i = 0;
+        // Count the number of returned POIs from the query.
+        $num = count($rawPois);
+        // Calculate the bearing difference between POIs. Divide 360 degrees evenly
+        // by the number of POIs.
+        $diff = (float)360 / $num;
+        // Calculate the distance in km between POIs and the user's current
+        // location using function getDistance(); The POIs will be placed at a
+        // distance 50m shorter than the search range.
+        $distance = getDistance($value['radius']);
+        // The earth's radius, 6371 km
+        $R = 6371;
+
+        // Put each POI information into $hotspots array.
+        foreach ( $rawPois as $rawPoi ) {
+            $poi = array();
+
+            $poi['id'] = $rawPoi['id'];
+            $poi['imageURL'] = $rawPoi['imageURL'];
+
+            // Calculate each POI's position relative to the user. The first POI
+            // always has the same lat as user's lat.
+            $brng = $diff * $i;
+            // Calculate POI's lat and lon in signed demical degrees.
+            $poiLoc = getPoiLoc ($value['lat'], $value['lon'], $brng, $distance);
+            // Get anchor object information
+            $poi['anchor']['geolocation']['lat'] = changetoFloat($poiLoc['lat']);
+            $poi['anchor']['geolocation']['lon'] = changetoFloat($poiLoc['lon']);
+            // get text object information
+            $poi['text']['title'] = $rawPoi['title'];
+            $poi['text']['description'] = $rawPoi['description'];
+            $poi['text']['footnote'] = $rawPoi['footnote'];
+            //User function getPOiActions() to return an array of actions associated
+            //with the current POI
+            $poi['actions'] = getPoiActions($db, $rawPoi);
+            // Get object object information if iconID is not null
+            if(count($rawPoi['iconID']) != 0)
+                $poi['icon'] = getIcon($db , $rawPoi['iconID']);
+            // Get object object information if objectID is not null
+            if(count($rawPoi['objectID']) != 0)
+                $poi['object'] = getObject($db, $rawPoi['objectID']);
+            // Get transform object information if transformID is not null
+            if(count($rawPoi['transformID']) != 0)
+                $poi['transform'] = getTransform($db, $rawPoi['transformID']);
+            // Put the poi into the $hotspots array.
+            $hotspots[$i] = $poi;
+            $i++;
+        }//foreach
+    }//if
   return $hotspots;
 }//getHotspots
 
@@ -423,6 +447,73 @@ function getCheckboxValue($checkboxlist) {
         throw new Exception("checkboxlist parameter is not passed in GetPOI request.");
     }//else
 }//getCheckboxValue
+
+// Convert the degree value into radian value.
+//
+// Arguments:
+//   float degree ; A value in signed decimal degrees format.
+//
+// Returns:
+//   float ; The same value in radians format.
+//
+function DegtoRad($degree) {
+    Return (float) $degree * PI() / 180 ;
+}//DegtoRad
+
+// Convert the radian value into degree value.
+//
+// Arguments:
+//  float  radian ; A value in radians format.
+//
+// Returns:
+//   float ; The same value in signed decimal degrees format.
+//
+function RadtoDeg ($radian) {
+    Return (float) $radian * 180 / PI() ;
+}//RadtoDeg
+
+function getPoiLoc ( $lat, $lon, $brng, $dist ) {
+    // Convert $lat, $lon and $brng into radian values.
+    $lat = DegtoRad ($lat);
+    $lon = DegtoRad ($lon);
+    $brng = DegtoRad ($brng);
+
+    // The earth's radius in km.
+    $R = 6371;
+
+    // Calculate the latitude value (in radian) of the POI.
+    $poi_lat = asin(sin($lat) * cos($dist/$R) + cos($lat) * sin($dist/$R) * cos($brng));
+
+    // Calculate the longitude value (in radian) of the POI.
+    $poi_lon = $lon + atan2(sin($brng) * sin($dist/$R) * cos($lat) ,
+            cos($dist/$R) - sin($lat) * sin($poi_lat));
+
+    // Convert POI lat and lon from radians to signed decimal degrees.
+    $poiloc['lat'] = RadtoDeg($poi_lat);
+    $poiloc['lon'] = RadtoDeg($poi_lon);
+
+    // return an array which contains the POI lat and lon in degrees.
+    return $poiloc;
+}//getPoiLoc
+
+// Calculate the distance between the POI and the user. It is 50m shorter than the search range (radius).
+//
+// Arguments:
+//   float radius ; The search range in meters.
+//
+// Returns:
+//   float ; The distance between the POI and the user in km.
+function getDistance ($radius) {
+    // If $radius exists and it is not NULL.
+    if (isset($radius)){
+        If ($radius <= 50)
+            return (float)$radius / 1000;
+    }else {
+        // if $radius does not exist or the value is null. Return $radius as 1500m.
+        $radius = 1500;
+    }
+    return (float)($radius - 50) / 1000;
+}//getDistance
 
 /* Construct the response into an associative array */
     
