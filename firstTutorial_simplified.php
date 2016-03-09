@@ -2,7 +2,7 @@
 include 'config.inc.php';
 /* Put parameters from GetPOI request into an associative array named $requestParams */
 // Put needed parameter names from GetPOI request in an array called $keys.
-$keys = array( 'layerName', 'lat', 'lon', 'radius', 'CHECKBOXLIST' );
+$keys = array( 'layerName', 'lat', 'lon', 'radius', 'Checkbox' );
 
 // Initialize an empty associative array.
 $requestParams = array();
@@ -91,7 +91,7 @@ function getHotspots( $db, $value ) {
 
     // Custom filter settings parameters. The four Get functions can be
     // customized.=
-    $sql->bindParam(':checkbox', getCheckboxValue($value['CHECKBOXLIST']), PDO::PARAM_INT);
+    $sql->bindParam(':checkbox', getCheckboxValue($value['Checkbox']), PDO::PARAM_INT);
 
   $sql->execute();
   // Iterator for the response array.
@@ -417,6 +417,8 @@ function getCheckboxValue($checkboxlist) {
             else
                 $checkbox_value = $checkboxlist;
         }//if
+        var_dump($checkbox_value);
+        die();
         return $checkbox_value;
     } //if
     else {
