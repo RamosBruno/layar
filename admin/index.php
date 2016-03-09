@@ -15,10 +15,9 @@
 	<header>
 		<nav>
 			<ul>
-				<li><a href="/index.php">Accueil</a></li>
-				<li><a href="/formpoi.php">Ajouter POI</a></li>
-				<li><a href="/formaction.php">Ajouter action</a></li>
-				<li><a href="/formicon.php">Ajouter icône</a></li>
+				<li><a href="/formpoi.php?action=ajouter">Ajouter POI</a></li>
+				<li><a href="/formaction.php?action=ajouter">Ajouter action</a></li>
+				<li><a href="/formicon.php?action=ajouter">Ajouter icône</a></li>
 			</ul>
 		</nav>
 	</header>
@@ -36,6 +35,7 @@
 				<td>Icone</td>
 				<td>Objet</td>
 				<td>Transform</td>
+				<td></td>
 			</th>
 			<?php foreach($rawPois as $poi){ ?>
 			<tr>
@@ -49,6 +49,7 @@
 				<td><?php echo $poi['iconID']; ?></td>
 				<td><?php echo $poi['objectID']; ?></td>
 				<td><?php echo $poi['transformID']; ?></td>
+				<td><a href="/formpoi.php?action=modifier&id=<?php echo $poi['id']; ?>">Modifier</a></td>
 			</tr>
 			<?php } ?>
 		</table>
@@ -63,6 +64,7 @@
 				<td>Type contenu</td>
 				<td>Méthode</td>
 				<td>Paramètres</td>
+				<td></td>
 			</th>
 			<?php foreach($rawActions as $action){ ?>
 			<tr>
@@ -72,6 +74,7 @@
 				<td><?php echo $action['contentType']; ?></td>
 				<td><?php echo $action['method']; ?></td>
 				<td><?php echo $action['params']; ?></td>
+				<td><a href="/formaction.php?action=modifier&id=<?php echo $action['id']; ?>">Modifier</a></td>
 			</tr>
 			<?php } ?>
 		</table>
@@ -82,11 +85,13 @@
 			<th>
 				<td>Url</td>
 				<td>Type</td>
+				<td></td>
 			</th>
 			<?php foreach($rawIcons as $icon){ ?>
 			<tr>
 				<td><?php echo $icon['url']; ?></td>
 				<td><?php echo $icon['type']; ?></td>
+				<td><a href="/formicon.php?action=modifier&id=<?php echo $icon['id']; ?>">Modifier</a></td>
 			</tr>
 			<?php } ?>
 		</table>

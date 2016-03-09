@@ -6,7 +6,6 @@ include_once '/../bddConnect.php';
 $db = connectDb();
 
 if(isset($_POST)){
-
 	$data = $_POST;
 
 	$expCT = explode("-",$_POST['contentType']);
@@ -26,9 +25,10 @@ if(isset($_POST)){
 				$data['activityType'] = 4;
 				$data['uri'] = 'tel:'.$_POST['uri'];
 			}
-			if($expCT[1] == 'mail')
+			if($expCT[1] == 'mail'){
 				$data['activityType'] = 5;
 				$data['uri'] = 'mailto:'.$_POST['uri'];
+			}
 		}
 	}
 	$data['contentType'] = $expCT[0];
@@ -39,7 +39,11 @@ if(isset($_POST)){
 	(isset($_POST['showActivity']))?$data['showActivity'] = 1:$data['showActivity'] = 0;
 	(isset($_POST['autoTrigger']))?$data['autoTrigger'] = 1:$data['autoTrigger'] = 0;
 
-	$sql = $db->prepare("INSERT INTO poiaction (poiID,label,uri,contentType,method,activityType,params,autoTriggerRange,autoTriggerOnly,closeBiw,showActivity,autoTrigger,activityMessage) VALUES (:poiID,:label,:uri,:contentType,:method,:activityType,:params,:autoTriggerRange,:autoTriggerOnly,:closeBiw,:showActivity,:autoTrigger,activityMessage)");
+	if($data['action'] == 'ajouter')
+		$sql = $db->prepare("INSERT INTO poiaction (poiID,label,uri,contentType,method,activityType,params,autoTriggerRange,autoTriggerOnly,closeBiw,showActivity,autoTrigger,activityMessage) VALUES (:poiID,:label,:uri,:contentType,:method,:activityType,:params,:autoTriggerRange,:autoTriggerOnly,:closeBiw,:showActivity,:autoTrigger,activityMessage)");
+	elseif($data['action'] == 'modifier')
+		$sql = $db->prepare("UPDATE poiaction SET poiID=:poiID,label=:label,uri=:uri,contentType=:contentType,method=:method,activityType=:activityType,params=:params,autoTriggerRange=:autoTriggerRange,autoTriggerOnly=:autoTriggerOnly,closeBiw=:closeBiw,showActivity=:showActivity,autoTrigger=:autoTrigger,activityMessage=:activityMessage WHERE id=:id");
+		$sql->bindParam( ':id', $data['id'], PDO::PARAM_STR );
 	$sql->bindParam( ':poiID', $data['poiID'], PDO::PARAM_STR );
 	$sql->bindParam( ':label', $data['label'], PDO::PARAM_STR );
 	$sql->bindParam( ':uri', $data['uri'], PDO::PARAM_STR );

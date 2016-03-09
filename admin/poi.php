@@ -13,7 +13,10 @@ if(isset($_POST)){
 	(isset($_POST['doNotIndex']))?$data['doNotIndex'] = 1:$data['doNotIndex'] = 0;
 	(isset($_POST['showSmallBiw']))?$data['showSmallBiw'] = 1:$data['showSmallBiw'] = 0;
 
-	$sql = $db->prepare("INSERT INTO poi (title,id,footnote,lat,lon,imageURL,description,biwStyle,poiType,showBiwOnClick,doNotIndex,showSmallBiw) VALUES (:title,:id,:footnote,:lat,:lon,:imageURL,:description,:biwStyle,:poiType,:showBiwOnClick,:doNotIndex,:showSmallBiw)");
+	if($data['action'] == 'ajouter')
+		$sql = $db->prepare("INSERT INTO poi (title,id,footnote,lat,lon,imageURL,description,biwStyle,poiType,showBiwOnClick,doNotIndex,showSmallBiw) VALUES (:title,:id,:footnote,:lat,:lon,:imageURL,:description,:biwStyle,:poiType,:showBiwOnClick,:doNotIndex,:showSmallBiw)");
+	elseif($data['action'] == 'modifier')
+		$sql = $db->prepare("UPDATE poi SET title=:title,footnote=:footnote,lat=:lat,lon=:lon,imageURL=:imageURL,description=:description,biwStyle=:biwStyle,poiType=:poiType,showBiwOnClick=:showBiwOnClick,doNotIndex=:doNotIndex,showSmallBiw=:showSmallBiw WHERE id=:id");
 	$sql->bindParam( ':title', $data['title'], PDO::PARAM_STR );
 	$sql->bindParam( ':id', $data['id'], PDO::PARAM_STR );
 	$sql->bindParam( ':footnote', $data['footnote'], PDO::PARAM_STR );
