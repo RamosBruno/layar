@@ -9,7 +9,8 @@
 
 	<?php include 'function.php';
 	$rawPois = getPois();
-	$rawActions = getActions();?>
+	$rawActions = getActions();
+	$rawIcons = getIcons();?>
 
 	<header>
 		<nav>
@@ -17,6 +18,7 @@
 				<li><a href="/index.php">Accueil</a></li>
 				<li><a href="/formpoi.php">Ajouter POI</a></li>
 				<li><a href="/formaction.php">Ajouter action</a></li>
+				<li><a href="/formicon.php">Ajouter icône</a></li>
 			</ul>
 		</nav>
 	</header>
@@ -70,6 +72,21 @@
 				<td><?php echo $action['contentType']; ?></td>
 				<td><?php echo $action['method']; ?></td>
 				<td><?php echo $action['params']; ?></td>
+			</tr>
+			<?php } ?>
+		</table>
+	</section>
+	<section>
+		<h2>Icônes</h2>
+		<table>
+			<th>
+				<td>Url</td>
+				<td>Type</td>
+			</th>
+			<?php foreach($rawIcons as $icon){ ?>
+			<tr>
+				<td><?php echo $icon['url']; ?></td>
+				<td><?php echo $icon['type']; ?></td>
 			</tr>
 			<?php } ?>
 		</table>

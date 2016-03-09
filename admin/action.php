@@ -54,4 +54,6 @@ if(isset($_POST)){
 	$sql->bindParam( ':autoTrigger', $data['autoTrigger'], PDO::PARAM_STR );
 	$sql->bindParam( ':activityMessage', $data['activityMessage'], PDO::PARAM_STR );
 	$sql->execute();
+
+	header('Location:/index.php');
 }

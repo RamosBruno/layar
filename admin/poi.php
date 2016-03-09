@@ -27,4 +27,6 @@ if(isset($_POST)){
 	$sql->bindParam( ':doNotIndex', $data['doNotIndex'], PDO::PARAM_STR );
 	$sql->bindParam( ':showSmallBiw', $data['showSmallBiw'], PDO::PARAM_STR );
 	$sql->execute();
+
+	header('Location:/index.php');
 }
