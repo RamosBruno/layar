@@ -1,5 +1,5 @@
-<?php include '/../layout/header.php'; ?>
-<?php include '/../include/function.php';
+<?php include '../layout/header.php'; ?>
+<?php include '../include/function.php';
 $rawIcons = getIcons();
 $mod=false;
 if(isset($_GET)){

@@ -1,7 +1,7 @@
 <?php
 
-include '/../../config.inc.php';
-include_once '/../../bddConnect.php';
+include '../../config.inc.php';
+include_once '../../bddConnect.php';
 
 $db = connectDb();
 

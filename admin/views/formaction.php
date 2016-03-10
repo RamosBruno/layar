@@ -1,5 +1,5 @@
-<?php include '/../layout/header.php'; ?>
-<?php include '/../include/function.php';
+<?php include '../layout/header.php'; ?>
+<?php include '../include/function.php';
 $rawPois = getPois();
 $mod=false;
 if(isset($_GET)){

@@ -1,5 +1,5 @@
-<?php include '/../layout/header.php'; ?>
-<?php include '/../include/function.php';
+<?php include '../layout/header.php'; ?>
+<?php include '../include/function.php';
 $mod=false;
 if(isset($_GET)){
 	if($_GET['action'] == 'modifier'){
