@@ -22,9 +22,9 @@ if(isset($_POST)){
 
 	if(isset($data['redirect'])){
 		if($data['redirect'] == 'poi'){
-			header('Location:/views/formpoi.php?action=ajouter');
+			header('Location:/admin/views/formpoi.php?action=ajouter');
 		}
 	}else{
-		header('Location:/index.php');
+		header('Location:/admin/index.php');
 	}
 }

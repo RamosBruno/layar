@@ -17,5 +17,5 @@ if(isset($_GET)){
 	$sql->bindParam( ':id', $id, PDO::PARAM_STR );
 	$sql->execute();
 
-	header('Location:/index.php');
+	header('Location:/admin/index.php');
 }

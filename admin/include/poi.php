@@ -33,5 +33,5 @@ if(isset($_POST)){
 	$sql->bindParam( ':iconID', $data['iconID'], PDO::PARAM_STR );
 	$sql->execute();
 
-	header('Location:/index.php');
+	header('Location:/admin/index.php');
 }

@@ -14,7 +14,7 @@ if(isset($_GET)){
 					<div class="box-header with-border">
 		            	<h3 class="box-title">Ajouter une icône</h3>
 		            </div>
-					<form method="post" action="/../include/icon.php" role="form">
+					<form method="post" action="/admin/include/icon.php" role="form">
 						<div class="box-body">
 							<input type="hidden" value="<?php echo (isset($_GET['action']))?$_GET['action']:''; ?>" name="action">
 							<input type="hidden" value="<?php echo (isset($_GET['id']))?$_GET['id']:''; ?>" name="id">
