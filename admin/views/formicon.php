@@ -25,7 +25,7 @@ if(isset($_GET)){
 								<label>URL</label for="url"><input type="text" value="<?php echo ($mod)?$icon[0]['url']:''; ?>" placeholder="URL" class="form-control" name="url" id="url">
 							</div>
 							<div class="form-group">
-								<label>type</label for"type"><input type="text" value="<?php echo ($mod)?$icon[0]['type']:''; ?>" placeholder="Type" class="form-control" name="type" id="type">
+								<label>type</label for"type"><input type="number" value="<?php echo ($mod)?$icon[0]['type']:''; ?>" placeholder="Type" class="form-control" name="type" id="type">
 							</div>
 						</div>
 						<div class="box-footer">
