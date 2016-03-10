@@ -34,7 +34,7 @@
   <link rel="stylesheet" href="AdminLTE-2.3.0/dist/css/skins/_all-skins.min.css">
   <link rel="stylesheet" href="public/css/style.css">
   <link rel="stylesheet" href="public/css/normalize.css">
-  <link rel="icon" type="image/png" href="public/img/best_western_b.png" />
+  <link rel="icon" type="image/png" href="/admin/public/img/best_western_b.png" />
   <?php else: ?>
       <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
