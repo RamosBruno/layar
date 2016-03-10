@@ -21,7 +21,7 @@ if(isset($_GET)){
 		            	<h3 class="box-title">Ajouter une action</h3>
 		            </div>
 
-					<form method="post" action="action.php" role="form">
+					<form method="post" action="/../include/action.php" role="form">
 						<div class="box-body">
 							<input type="hidden" value="<?php echo (isset($_GET['action']))?$_GET['action']:''; ?>" name="action">
 							<input type="hidden" value="<?php echo (isset($_GET['id']))?$_GET['id']:''; ?>" name="id">

@@ -1,7 +1,7 @@
 <?php
 
-include '/../config.inc.php';
-include_once '/../bddConnect.php';
+include '/../../config.inc.php';
+include_once '/../../bddConnect.php';
 
 $db = connectDb();
 
@@ -39,11 +39,12 @@ if(isset($_POST)){
 	(isset($_POST['showActivity']))?$data['showActivity'] = 1:$data['showActivity'] = 0;
 	(isset($_POST['autoTrigger']))?$data['autoTrigger'] = 1:$data['autoTrigger'] = 0;
 
-	if($data['action'] == 'ajouter')
-		$sql = $db->prepare("INSERT INTO poiaction (poiID,label,uri,contentType,method,activityType,params,autoTriggerRange,autoTriggerOnly,closeBiw,showActivity,autoTrigger,activityMessage) VALUES (:poiID,:label,:uri,:contentType,:method,:activityType,:params,:autoTriggerRange,:autoTriggerOnly,:closeBiw,:showActivity,:autoTrigger,activityMessage)");
-	elseif($data['action'] == 'modifier')
-		$sql = $db->prepare("UPDATE poiaction SET poiID=:poiID,label=:label,uri=:uri,contentType=:contentType,method=:method,activityType=:activityType,params=:params,autoTriggerRange=:autoTriggerRange,autoTriggerOnly=:autoTriggerOnly,closeBiw=:closeBiw,showActivity=:showActivity,autoTrigger=:autoTrigger,activityMessage=:activityMessage WHERE id=:id");
+	if($data['action'] == 'ajouter'){
+		$sql = $db->prepare("INSERT INTO POIAction (poiID,label,uri,contentType,method,activityType,params,autoTriggerRange,autoTriggerOnly,closeBiw,showActivity,autoTrigger,activityMessage) VALUES (:poiID,:label,:uri,:contentType,:method,:activityType,:params,:autoTriggerRange,:autoTriggerOnly,:closeBiw,:showActivity,:autoTrigger,activityMessage)");
+	}elseif($data['action'] == 'modifier'){
+		$sql = $db->prepare("UPDATE POIAction SET poiID=:poiID,label=:label,uri=:uri,contentType=:contentType,method=:method,activityType=:activityType,params=:params,autoTriggerRange=:autoTriggerRange,autoTriggerOnly=:autoTriggerOnly,closeBiw=:closeBiw,showActivity=:showActivity,autoTrigger=:autoTrigger,activityMessage=:activityMessage WHERE id=:id");
 		$sql->bindParam( ':id', $data['id'], PDO::PARAM_STR );
+	}
 	$sql->bindParam( ':poiID', $data['poiID'], PDO::PARAM_STR );
 	$sql->bindParam( ':label', $data['label'], PDO::PARAM_STR );
 	$sql->bindParam( ':uri', $data['uri'], PDO::PARAM_STR );

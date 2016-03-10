@@ -19,6 +19,11 @@ section{
 	margin-top:3em;
 }
 
+.not-active,.not-active:hover,.not-active:focus,.not-active a {
+   background-color:#A4A4A4 !important;
+   color:#ffffff !important;
+}
+
 /*** HEADER ***/
 header a{
 	color:#f7f7f7;

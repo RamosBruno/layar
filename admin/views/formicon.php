@@ -14,10 +14,13 @@ if(isset($_GET)){
 					<div class="box-header with-border">
 		            	<h3 class="box-title">Ajouter une icône</h3>
 		            </div>
-					<form method="post" action="icon.php" role="form">
+					<form method="post" action="/../include/icon.php" role="form">
 						<div class="box-body">
 							<input type="hidden" value="<?php echo (isset($_GET['action']))?$_GET['action']:''; ?>" name="action">
 							<input type="hidden" value="<?php echo (isset($_GET['id']))?$_GET['id']:''; ?>" name="id">
+							<?php if(isset($_GET['redirect'])){ ?>
+							<input type="hidden" value="<?php echo $_GET['redirect']; ?>" name="redirect">
+							<?php } ?>
 							<div class="form-group">
 								<label>URL</label for="url"><input type="text" value="<?php echo ($mod)?$icon[0]['url']:''; ?>" placeholder="URL" class="form-control" name="url" id="url">
 							</div>

@@ -15,8 +15,9 @@ function getPois(){
                      lon,
                    iconID,
                    objectID,
-                   transformID
-               FROM poi
+                   transformID,
+                   active
+               FROM POI
               LIMIT 0, 50 " );
 
   $sql->execute();
@@ -45,7 +46,7 @@ function getPoiById($id){
                    iconID,
                    objectID,
                    transformID
-               FROM poi
+               FROM POI
                WHERE id = :id
               LIMIT 0, 50 " );
 
@@ -64,8 +65,9 @@ function getActions(){
                      contentType,
                      method,
                      params,
-                     id
-               FROM poiaction
+                     id,
+                     active
+               FROM POIAction
               LIMIT 0, 50 " );
 
   $sql->execute();
@@ -90,7 +92,7 @@ function getActionById($id){
                      showActivity,
                      activityMessage,
                      autoTrigger
-               FROM poiaction
+               FROM POIAction
                WHERE id = :id
               LIMIT 0, 50 " );
 
@@ -105,8 +107,9 @@ function getIcons(){
   $sql = $db->prepare( "
               SELECT id,
               url,
-              type
-               FROM icon
+              type,
+              active
+               FROM Icon
               LIMIT 0, 50 " );
 
   $sql->execute();
@@ -120,7 +123,7 @@ function getIconById($id){
               SELECT id,
               url,
               type
-               FROM icon
+               FROM Icon
                WHERE id = :id
               LIMIT 0, 50 " );
 
