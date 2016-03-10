@@ -26,8 +26,8 @@
   <link rel="stylesheet" href="public/css/style.css">
   <link rel="stylesheet" href="public/css/normalize.css">
   <link rel="icon" type="image/png" href="public/img/best_western_b.png" />
-  <script src="AdminLTE-2.3.0/plugins/jQuery/jQuery-2.1.4.min.js"></script>
-  <script src="AdminLTE-2.3.0/plugins/jQueryUI/jQuery-ui.min.js"></script>
+  <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
+  <script src="//code.jquery.com/ui/1.12.0-beta.1/jquery-ui.min.js"></script>
   <script type="text/javascript" src="public/js/script.js"></script>
 </head>
 <body>
