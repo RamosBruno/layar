@@ -11,8 +11,6 @@ if($toto[2] != 'views'){
   include_once '../../bddConnect.php';
 }
 
-echo getcwd();
-
 function getPois(){
   $db = connectDb();
   $sql = $db->prepare( "
