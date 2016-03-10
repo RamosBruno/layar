@@ -3,11 +3,17 @@
 <head>
   <meta charset="utf-8" />
   <title>Best Western Augmented Reality</title>
+    <?php 
+      $url = $_SERVER['REQUEST_URI'];
+    $toto = explode('/', $url);
+
+    if($toto[2] != 'views'): ?>
   <link rel="stylesheet" href="AdminLTE-2.3.0/bootstrap/css/bootstrap.min.css">
+  <?php else: ?>
+    <link rel="stylesheet" href="../AdminLTE-2.3.0/bootstrap/css/bootstrap.min.css">
+  <?php endif ?>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-  <?php 
-    $url = $_SERVER['REQUEST_URI'];
-    if($url[1] != 'views'): ?>
+  <?php if($toto[2] != 'views'): ?>
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- daterange picker -->
@@ -54,7 +60,7 @@
   <?php endif ?>
   <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-  <?php if($url[1] != 'views'): ?>
+  <?php if($toto[2] != 'views'): ?>
     <script type="text/javascript" src="public/js/script.js"></script>
   <?php else: ?>  
     <script type="text/javascript" src="../public/js/script.js"></script>
