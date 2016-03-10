@@ -78,8 +78,8 @@
         <?php endif ?>
 				<ul class="nav navbar-nav">
           <li><a id="nav-poi" style="cursor:pointer;">Ajouter POI</a></li>
-					<li><a href="views/formaction.php?action=ajouter" id="nav-action">Ajouter action</a></li>
-					<li><a href="views/formicon.php?action=ajouter" id="nav-icon">Ajouter icône</a></li>
+					<li><a href="/admin/views/formaction.php?action=ajouter" id="nav-action">Ajouter action</a></li>
+					<li><a href="/admin/views/formicon.php?action=ajouter" id="nav-icon">Ajouter icône</a></li>
 				</ul>
 			</nav>
       <div id="confirm-icon" style="display:none;">

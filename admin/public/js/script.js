@@ -16,10 +16,10 @@ $(document).ready(function(){
 	        modal: true,
 	        buttons: {
 		        "Oui": function() {
-		            window.location.replace("/../../views/formicon.php?action=ajouter&redirect=poi");
+		            window.location.replace("/admin/views/formicon.php?action=ajouter&redirect=poi");
 		        },
 		        "Non": function() {
-		            window.location.replace("/../../views/formpoi.php?action=ajouter");
+		            window.location.replace("/admin/views/formpoi.php?action=ajouter");
 		        }
 	        }
 	    });

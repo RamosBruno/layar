@@ -1,7 +1,17 @@
 <?php
+$url = $_SERVER['REQUEST_URI'];
+$toto = explode('/', $url);
 
-include '../config.inc.php';
-include_once '../bddConnect.php';
+if($toto[2] != 'views'){
+
+  include '../config.inc.php';
+  include_once '../bddConnect.php';
+}else{
+  include '../../config.inc.php';
+  include_once '../../bddConnect.php';
+}
+
+echo getcwd();
 
 function getPois(){
   $db = connectDb();
