@@ -1,0 +1,35 @@
+/* centered columns styles */
+.row-centered {
+    text-align:center;
+}
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
+}
+
+.bg-blue{
+	background:#013E88;
+}
+
+section{
+	margin-top:3em;
+}
+
+/*** HEADER ***/
+header a{
+	color:#f7f7f7;
+	padding-bottom: 8px !important;
+}
+header .logo{
+	width: 4em;
+    float: left;
+}
+.nav>li>a:hover, .nav>li>a:active, .nav>li>a:focus, .active{
+	background:transparent;
+	border-bottom:2px solid #f7f7f7;
+	color:#f7f7f7;
+}
