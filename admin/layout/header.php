@@ -56,7 +56,7 @@
   <link rel="stylesheet" href="../AdminLTE-2.3.0/dist/css/skins/_all-skins.min.css">
   <link rel="stylesheet" href="../public/css/style.css">
   <link rel="stylesheet" href="../public/css/normalize.css">
-  <link rel="icon" type="image/png" href="../public/img/best_western_b.png" />
+  <link rel="icon" type="image/png" href="../../public/img/best_western_b.png" />
   <?php endif ?>
   <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
