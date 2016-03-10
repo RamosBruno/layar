@@ -27,7 +27,7 @@
   <link rel="stylesheet" href="public/css/normalize.css">
   <link rel="icon" type="image/png" href="public/img/best_western_b.png" />
   <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
-  <script src="//code.jquery.com/ui/1.12.0-beta.1/jquery-ui.min.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
   <script type="text/javascript" src="public/js/script.js"></script>
 </head>
 <body>
