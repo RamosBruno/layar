@@ -40,7 +40,7 @@ if(isset($_POST)){
 	(isset($_POST['autoTrigger']))?$data['autoTrigger'] = 1:$data['autoTrigger'] = 0;
 
 	if($data['action'] == 'ajouter'){
-		$sql = $db->prepare("INSERT INTO POIAction (poiID,label,uri,contentType,method,activityType,params,autoTriggerRange,autoTriggerOnly,closeBiw,showActivity,autoTrigger,activityMessage) VALUES (:poiID,:label,:uri,:contentType,:method,:activityType,:params,:autoTriggerRange,:autoTriggerOnly,:closeBiw,:showActivity,:autoTrigger,activityMessage)");
+		$sql = $db->prepare("INSERT INTO POIAction (poiID,label,uri,contentType,method,activityType,params,autoTriggerRange,autoTriggerOnly,closeBiw,showActivity,autoTrigger,activityMessage) VALUES (:poiID,:label,:uri,:contentType,:method,:activityType,:params,:autoTriggerRange,:autoTriggerOnly,:closeBiw,:showActivity,:autoTrigger,:activityMessage)");
 	}elseif($data['action'] == 'modifier'){
 		$sql = $db->prepare("UPDATE POIAction SET poiID=:poiID,label=:label,uri=:uri,contentType=:contentType,method=:method,activityType=:activityType,params=:params,autoTriggerRange=:autoTriggerRange,autoTriggerOnly=:autoTriggerOnly,closeBiw=:closeBiw,showActivity=:showActivity,autoTrigger=:autoTrigger,activityMessage=:activityMessage WHERE id=:id");
 		$sql->bindParam( ':id', $data['id'], PDO::PARAM_STR );
