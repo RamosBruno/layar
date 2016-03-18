@@ -36,7 +36,7 @@ $rawIcons = getIcons();?>
 								<td><?php echo $poi['iconID']; ?></td>
 								<td><?php echo $poi['objectID']; ?></td>
 								<td><?php echo $poi['transformID']; ?></td>
-								<td><a href="/views/formpoi.php?action=modifier&id=<?php echo $poi['id']; ?>">Modifier</a></td>
+								<td><a href="/admin/views/formpoi.php?action=modifier&id=<?php echo $poi['id']; ?>">Modifier</a></td>
 								<?php if($poi['active']){ ?>
 								<td><a href="/include/supprimer.php?id=<?php echo $poi['id']; ?>&table=POI&action=desactiver">Désactiver</a></td>
 								<?php }else{ ?>
